@@ -1,0 +1,4 @@
+-> Limit: 10 row(s)  (cost=33336 rows=10) (actual time=1720..1720 rows=10 loops=1)
+    -> Sort: area_m2 DESC, limit input to 10 row(s) per chunk  (cost=33336 rows=258109) (actual time=1720..1720 rows=10 loops=1)
+        -> Index lookup on areas using areas_kind (kind='building')  (cost=33336 rows=258109) (actual time=0.0205..573 rows=331743 loops=1)
+

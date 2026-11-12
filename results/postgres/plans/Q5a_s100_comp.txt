@@ -1,0 +1,18 @@
+Finalize Aggregate  (cost=58257.92..58257.93 rows=1 width=16) (actual time=12.692..14.848 rows=1 loops=1)
+  Buffers: shared hit=1346
+  ->  Gather  (cost=58257.70..58257.91 rows=2 width=16) (actual time=12.409..14.843 rows=3 loops=1)
+        Workers Planned: 2
+        Workers Launched: 2
+        Buffers: shared hit=1346
+        ->  Partial Aggregate  (cost=57257.70..57257.71 rows=1 width=16) (actual time=5.181..5.181 rows=1 loops=3)
+              Buffers: shared hit=1346
+              ->  Parallel Bitmap Heap Scan on areas  (cost=192.75..56752.13 rows=3889 width=239) (actual time=1.223..4.767 rows=2689 loops=3)
+                    Recheck Cond: (kind = 'building'::text)
+                    Filter: st_within(geom, '010300002084080000010000000500000014AE4761536623415C8FC2F5FD521D4114AE4761938523415C8FC2F5FD521D4114AE4761938523415C8FC2F57D911D4114AE4761536623415C8FC2F57D911D4114AE4761536623415C8FC2F5FD521D41'::geometry)
+                    Heap Blocks: exact=934
+                    Buffers: shared hit=1342
+                    ->  Bitmap Index Scan on areas_kind_geom_gist  (cost=0.00..190.41 rows=9333 width=0) (actual time=3.306..3.307 rows=8068 loops=1)
+                          Index Cond: ((kind = 'building'::text) AND (geom @ '010300002084080000010000000500000014AE4761536623415C8FC2F5FD521D4114AE4761938523415C8FC2F5FD521D4114AE4761938523415C8FC2F57D911D4114AE4761536623415C8FC2F57D911D4114AE4761536623415C8FC2F5FD521D41'::geometry))
+                          Buffers: shared hit=191
+Planning Time: 0.155 ms
+Execution Time: 14.871 ms

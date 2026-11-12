@@ -1,0 +1,25 @@
+Finalize Aggregate  (cost=63284.94..63284.95 rows=1 width=16) (actual time=20.630..23.761 rows=1 loops=1)
+  Buffers: shared hit=1598
+  ->  Gather  (cost=63284.72..63284.93 rows=2 width=16) (actual time=20.459..23.754 rows=3 loops=1)
+        Workers Planned: 2
+        Workers Launched: 2
+        Buffers: shared hit=1598
+        ->  Partial Aggregate  (cost=62284.72..62284.73 rows=1 width=16) (actual time=10.391..10.393 rows=1 loops=3)
+              Buffers: shared hit=1598
+              ->  Parallel Bitmap Heap Scan on areas  (cost=3013.15..61759.00 rows=4044 width=241) (actual time=4.579..9.874 rows=2689 loops=3)
+                    Recheck Cond: (kind = 'building'::text)
+                    Filter: st_within(geom, '010300002084080000010000000500000014AE4761536623415C8FC2F5FD521D4114AE4761938523415C8FC2F5FD521D4114AE4761938523415C8FC2F57D911D4114AE4761536623415C8FC2F57D911D4114AE4761536623415C8FC2F5FD521D41'::geometry)
+                    Heap Blocks: exact=519
+                    Buffers: shared hit=1594
+                    ->  BitmapAnd  (cost=3013.15..3013.15 rows=9705 width=0) (actual time=12.950..12.952 rows=0 loops=1)
+                          Buffers: shared hit=406
+                          ->  Bitmap Index Scan on areas_geom_gist  (cost=0.00..210.22 rows=15672 width=0) (actual time=2.500..2.501 rows=16342 loops=1)
+                                Index Cond: (geom @ '010300002084080000010000000500000014AE4761536623415C8FC2F5FD521D4114AE4761938523415C8FC2F5FD521D4114AE4761938523415C8FC2F57D911D4114AE4761536623415C8FC2F57D911D4114AE4761536623415C8FC2F5FD521D41'::geometry)
+                                Buffers: shared hit=120
+                          ->  Bitmap Index Scan on areas_kind_btree  (cost=0.00..2797.83 rows=331187 width=0) (actual time=10.106..10.106 rows=331743 loops=1)
+                                Index Cond: (kind = 'building'::text)
+                                Buffers: shared hit=286
+Planning:
+  Buffers: shared hit=9
+Planning Time: 0.225 ms
+Execution Time: 23.835 ms

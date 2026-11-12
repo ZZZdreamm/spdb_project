@@ -1,0 +1,4 @@
+-> Sort: dist  (cost=688 rows=1528) (actual time=49.4..51.1 rows=2306 loops=1)
+    -> Filter: (mbrintersects(roads.geom,<cache>(st_geomfromtext(concat('POLYGON((',((@px) - 1000),' ',((@py) - 1000),',',((@px) + 1000),' ',((@py) - 1000),',',((@px) + 1000),' ',((@py) + 1000),',',((@px) - 1000),' ',((@py) + 1000),',',((@px) - 1000),' ',((@py) - 1000),'))'),2180))) and (st_distance(roads.geom,<cache>(st_geomfromtext(concat('POINT(',(@px),' ',(@py),')'),2180))) <= 1000))  (cost=688 rows=1528) (actual time=0.141..33.2 rows=2306 loops=1)
+        -> Index range scan on roads using roads_geom over (geom unprintable_geometry_value)  (cost=688 rows=1528) (actual time=0.108..10.7 rows=3189 loops=1)
+

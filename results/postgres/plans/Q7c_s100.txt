@@ -1,0 +1,28 @@
+HashAggregate  (cost=93586.86..93595.67 rows=881 width=12) (actual time=16.547..16.602 rows=644 loops=1)
+  Group Key: a.id
+  Batches: 1  Memory Usage: 105kB
+  Buffers: shared hit=2704
+  ->  Nested Loop Left Join  (cost=2818.56..93502.56 rows=16859 width=8) (actual time=8.411..16.426 rows=656 loops=1)
+        Buffers: shared hit=2704
+        ->  Bitmap Heap Scan on areas a  (cost=2818.28..14773.39 rows=881 width=245) (actual time=8.374..9.183 rows=644 loops=1)
+              Recheck Cond: (kind = 'building'::text)
+              Filter: st_within(geom, '010300002084080000010000000500000014AE47610B7223415C8FC2F56D6A1D4114AE4761DB7923415C8FC2F56D6A1D4114AE4761DB7923415C8FC2F50D7A1D4114AE47610B7223415C8FC2F50D7A1D4114AE47610B7223415C8FC2F56D6A1D41'::geometry)
+              Heap Blocks: exact=130
+              Buffers: shared hit=437
+              ->  BitmapAnd  (cost=2818.28..2818.28 rows=881 width=0) (actual time=8.315..8.316 rows=0 loops=1)
+                    Buffers: shared hit=307
+                    ->  Bitmap Index Scan on areas_geom_gist  (cost=0.00..19.76 rows=1423 width=0) (actual time=0.105..0.105 rows=1313 loops=1)
+                          Index Cond: (geom @ '010300002084080000010000000500000014AE47610B7223415C8FC2F56D6A1D4114AE4761DB7923415C8FC2F56D6A1D4114AE4761DB7923415C8FC2F50D7A1D4114AE47610B7223415C8FC2F50D7A1D4114AE47610B7223415C8FC2F56D6A1D41'::geometry)
+                          Buffers: shared hit=21
+                    ->  Bitmap Index Scan on areas_kind_btree  (cost=0.00..2797.83 rows=331187 width=0) (actual time=7.819..7.819 rows=331743 loops=1)
+                          Index Cond: (kind = 'building'::text)
+                          Buffers: shared hit=286
+        ->  Index Scan using pois_geom_gist on pois p  (cost=0.28..89.29 rows=7 width=36) (actual time=0.011..0.011 rows=0 loops=644)
+              Index Cond: (geom @ a.geom)
+              Filter: st_contains(a.geom, geom)
+              Rows Removed by Filter: 0
+              Buffers: shared hit=2267
+Planning:
+  Buffers: shared hit=12
+Planning Time: 0.666 ms
+Execution Time: 16.658 ms

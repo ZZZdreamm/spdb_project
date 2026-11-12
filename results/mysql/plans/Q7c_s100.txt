@@ -1,0 +1,7 @@
+-> Group aggregate: count(p.id)  (cost=2.67e+6 rows=516218) (actual time=7.45..2678 rows=644 loops=1)
+    -> Nested loop left join  (cost=1.33e+6 rows=13.3e+6) (actual time=0.804..2675 rows=656 loops=1)
+        -> Filter: ((a.kind = 'building') and st_within(a.geom,<cache>(st_geomfromtext((@wkt_rect_small),2180))))  (cost=178 rows=194) (actual time=0.647..2629 rows=644 loops=1)
+            -> Index scan on a using areas_kind  (cost=178 rows=516218) (actual time=0.0211..840 rows=534834 loops=1)
+        -> Filter: st_contains(a.geom,p.geom)  (cost=35.7 rows=68557) (actual time=0.0697..0.0702 rows=0.0699 loops=644)
+            -> Index range scan on p (re-planned for each iteration)  (cost=35.7 rows=68557) (actual time=0.0687..0.0692 rows=0.161 loops=644)
+

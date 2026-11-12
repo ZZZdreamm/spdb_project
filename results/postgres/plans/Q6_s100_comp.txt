@@ -1,0 +1,19 @@
+Gather Merge  (cost=26458.51..26461.04 rows=22 width=20) (actual time=10.554..13.504 rows=2306 loops=1)
+  Workers Planned: 1
+  Workers Launched: 1
+  Buffers: shared hit=563
+  ->  Sort  (cost=25458.50..25458.56 rows=22 width=20) (actual time=2.026..2.112 rows=1153 loops=2)
+        Sort Key: (st_distance(geom, '0101000020840800005C8FC2757B91234152B81E85BE131E41'::geometry))
+        Sort Method: quicksort  Memory: 187kB
+        Buffers: shared hit=563
+        Worker 0:  Sort Method: quicksort  Memory: 25kB
+        ->  Parallel Bitmap Heap Scan on roads  (cost=42.04..25458.01 rows=22 width=20) (actual time=0.434..1.771 rows=1153 loops=2)
+              Filter: st_dwithin(geom, '0101000020840800005C8FC2757B91234152B81E85BE131E41'::geometry, '1000'::double precision)
+              Rows Removed by Filter: 442
+              Heap Blocks: exact=525
+              Buffers: shared hit=554
+              ->  Bitmap Index Scan on roads_geom_gist  (cost=0.00..42.03 rows=3057 width=0) (actual time=0.775..0.775 rows=3189 loops=1)
+                    Index Cond: (geom && st_expand('0101000020840800005C8FC2757B91234152B81E85BE131E41'::geometry, '1000'::double precision))
+                    Buffers: shared hit=29
+Planning Time: 0.155 ms
+Execution Time: 13.589 ms

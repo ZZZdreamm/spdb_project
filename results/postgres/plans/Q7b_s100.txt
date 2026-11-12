@@ -1,0 +1,24 @@
+Nested Loop  (cost=68.84..1285.26 rows=45 width=16) (actual time=0.331..3.158 rows=44 loops=1)
+  Buffers: shared hit=496
+  ->  Bitmap Heap Scan on pois p  (cost=68.56..678.97 rows=45 width=36) (actual time=0.269..0.314 rows=44 loops=1)
+        Recheck Cond: (category = 'pharmacy'::text)
+        Filter: st_within(geom, '010300002084080000010000000500000014AE4761536623415C8FC2F5FD521D4114AE4761938523415C8FC2F5FD521D4114AE4761938523415C8FC2F57D911D4114AE4761536623415C8FC2F57D911D4114AE4761536623415C8FC2F5FD521D41'::geometry)
+        Heap Blocks: exact=30
+        Buffers: shared hit=70
+        ->  BitmapAnd  (cost=68.56..68.56 rows=45 width=0) (actual time=0.261..0.262 rows=0 loops=1)
+              Buffers: shared hit=40
+              ->  Bitmap Index Scan on pois_category_btree  (cost=0.00..6.28 rows=651 width=0) (actual time=0.018..0.019 rows=681 loops=1)
+                    Index Cond: (category = 'pharmacy'::text)
+                    Buffers: shared hit=3
+              ->  Bitmap Index Scan on pois_geom_gist  (cost=0.00..62.01 rows=4711 width=0) (actual time=0.237..0.237 rows=4655 loops=1)
+                    Index Cond: (geom @ '010300002084080000010000000500000014AE4761536623415C8FC2F5FD521D4114AE4761938523415C8FC2F5FD521D4114AE4761938523415C8FC2F57D911D4114AE4761536623415C8FC2F57D911D4114AE4761536623415C8FC2F5FD521D41'::geometry)
+                    Buffers: shared hit=37
+  ->  Limit  (cost=0.28..13.45 rows=1 width=20) (actual time=0.064..0.064 rows=1 loops=44)
+        Buffers: shared hit=426
+        ->  Index Scan using roads_geom_gist on roads r  (cost=0.28..4858659.02 rows=368902 width=20) (actual time=0.064..0.064 rows=1 loops=44)
+              Order By: (geom <-> p.geom)
+              Buffers: shared hit=426
+Planning:
+  Buffers: shared hit=66
+Planning Time: 0.209 ms
+Execution Time: 3.175 ms

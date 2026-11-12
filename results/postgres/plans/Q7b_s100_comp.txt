@@ -1,0 +1,13 @@
+Nested Loop  (cost=0.56..1354.94 rows=50 width=16) (actual time=0.128..3.979 rows=44 loops=1)
+  Buffers: shared hit=470
+  ->  Index Scan using pois_cat_geom_gist on pois p  (cost=0.28..681.28 rows=50 width=36) (actual time=0.042..0.278 rows=44 loops=1)
+        Index Cond: ((category = 'pharmacy'::text) AND (geom @ '010300002084080000010000000500000014AE4761536623415C8FC2F5FD521D4114AE4761938523415C8FC2F5FD521D4114AE4761938523415C8FC2F57D911D4114AE4761536623415C8FC2F57D911D4114AE4761536623415C8FC2F5FD521D41'::geometry))
+        Filter: st_within(geom, '010300002084080000010000000500000014AE4761536623415C8FC2F5FD521D4114AE4761938523415C8FC2F5FD521D4114AE4761938523415C8FC2F57D911D4114AE4761536623415C8FC2F57D911D4114AE4761536623415C8FC2F5FD521D41'::geometry)
+        Buffers: shared hit=44
+  ->  Limit  (cost=0.28..13.45 rows=1 width=20) (actual time=0.084..0.084 rows=1 loops=44)
+        Buffers: shared hit=426
+        ->  Index Scan using roads_geom_gist on roads r  (cost=0.28..4858661.22 rows=368902 width=20) (actual time=0.083..0.083 rows=1 loops=44)
+              Order By: (geom <-> p.geom)
+              Buffers: shared hit=426
+Planning Time: 0.283 ms
+Execution Time: 4.002 ms

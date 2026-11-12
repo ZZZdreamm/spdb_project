@@ -1,0 +1,14 @@
+Index Scan using pois_cat_geom_gist on pois s  (cost=0.28..749.07 rows=26 width=12) (actual time=0.138..1.270 rows=30 loops=1)
+  Index Cond: ((category = 'school'::text) AND (geom @ '010300002084080000010000000500000014AE4761536623415C8FC2F5FD521D4114AE4761938523415C8FC2F5FD521D4114AE4761938523415C8FC2F57D911D4114AE4761536623415C8FC2F57D911D4114AE4761536623415C8FC2F5FD521D41'::geometry))
+  Filter: st_within(geom, '010300002084080000010000000500000014AE4761536623415C8FC2F5FD521D4114AE4761938523415C8FC2F5FD521D4114AE4761938523415C8FC2F57D911D4114AE4761536623415C8FC2F57D911D4114AE4761536623415C8FC2F5FD521D41'::geometry)
+  Buffers: shared hit=296
+  SubPlan 1
+    ->  Aggregate  (cost=15.13..15.14 rows=1 width=8) (actual time=0.038..0.038 rows=1 loops=30)
+          Buffers: shared hit=275
+          ->  Index Scan using pois_cat_geom_gist on pois r  (cost=0.41..15.12 rows=1 width=0) (actual time=0.023..0.038 rows=2 loops=30)
+                Index Cond: ((category = 'restaurant'::text) AND (geom && st_expand(s.geom, '300'::double precision)))
+                Filter: st_dwithin(geom, s.geom, '300'::double precision)
+                Rows Removed by Filter: 1
+                Buffers: shared hit=275
+Planning Time: 0.223 ms
+Execution Time: 1.290 ms

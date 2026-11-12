@@ -1,0 +1,14 @@
+Gather  (cost=1017.47..11426.34 rows=1224 width=12) (actual time=0.756..15.182 rows=1410 loops=1)
+  Workers Planned: 1
+  Workers Launched: 1
+  Buffers: shared hit=283
+  ->  Parallel Bitmap Heap Scan on areas  (cost=17.47..10303.94 rows=720 width=12) (actual time=0.317..1.304 rows=705 loops=2)
+        Filter: st_intersects(geom, '010300002084080000010000000500000014AE47610B7223415C8FC2F56D6A1D4114AE4761DB7923415C8FC2F56D6A1D4114AE4761DB7923415C8FC2F50D7A1D4114AE47610B7223415C8FC2F50D7A1D4114AE47610B7223415C8FC2F56D6A1D41'::geometry)
+        Rows Removed by Filter: 1
+        Heap Blocks: exact=262
+        Buffers: shared hit=283
+        ->  Bitmap Index Scan on areas_geom_gist  (cost=0.00..17.17 rows=1224 width=0) (actual time=0.560..0.561 rows=1412 loops=1)
+              Index Cond: (geom && '010300002084080000010000000500000014AE47610B7223415C8FC2F56D6A1D4114AE4761DB7923415C8FC2F56D6A1D4114AE4761DB7923415C8FC2F50D7A1D4114AE47610B7223415C8FC2F50D7A1D4114AE47610B7223415C8FC2F56D6A1D41'::geometry)
+              Buffers: shared hit=21
+Planning Time: 0.111 ms
+Execution Time: 15.243 ms

@@ -1,0 +1,9 @@
+Index Scan using roads_geom_gist on roads  (cost=0.41..15.13 rows=37 width=12) (actual time=0.053..0.126 rows=1 loops=1)
+  Index Cond: (geom && st_expand('0101000020840800005C8FC2757B91234152B81E85BE131E41'::geometry, '5'::double precision))
+  Filter: st_dwithin(geom, '0101000020840800005C8FC2757B91234152B81E85BE131E41'::geometry, '5'::double precision)
+  Rows Removed by Filter: 9
+  Buffers: shared hit=15
+Planning:
+  Buffers: shared hit=57
+Planning Time: 0.377 ms
+Execution Time: 0.134 ms

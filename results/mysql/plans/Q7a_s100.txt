@@ -1,0 +1,7 @@
+-> Filter: st_within(s.geom,<cache>(st_geomfromtext((@wkt_rect_big),2180)))  (cost=100 rows=21.4) (actual time=0.0973..3 rows=30 loops=1)
+    -> Index lookup on s using pois_category (category='school')  (cost=100 rows=393) (actual time=0.0165..1.22 rows=393 loops=1)
+-> Select #2 (subquery in projection; dependent)
+    -> Aggregate: count(0)  (cost=673 rows=1) (actual time=24.1..24.1 rows=1 loops=30)
+        -> Filter: (mbrintersects(r.geom,st_buffer(s.geom,300,<cache>(st_buffer_strategy('point_square')))) and (st_distance(r.geom,s.geom) <= 300))  (cost=469 rows=2043) (actual time=13.8..24.1 rows=1.9 loops=30)
+            -> Index lookup on r using pois_category (category='restaurant')  (cost=469 rows=2043) (actual time=0.0198..4.79 rows=2043 loops=30)
+

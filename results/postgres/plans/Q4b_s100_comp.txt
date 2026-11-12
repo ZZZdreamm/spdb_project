@@ -1,0 +1,7 @@
+Index Scan using pois_cat_geom_gist on pois  (cost=0.41..28.75 rows=1 width=21) (actual time=0.025..0.045 rows=5 loops=1)
+  Index Cond: ((category = 'restaurant'::text) AND (geom && st_expand('0101000020840800005C8FC2757B91234152B81E85BE131E41'::geometry, '500'::double precision)))
+  Filter: st_dwithin(geom, '0101000020840800005C8FC2757B91234152B81E85BE131E41'::geometry, '500'::double precision)
+  Rows Removed by Filter: 2
+  Buffers: shared hit=12
+Planning Time: 0.091 ms
+Execution Time: 0.050 ms

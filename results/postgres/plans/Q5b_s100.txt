@@ -1,0 +1,19 @@
+Limit  (cost=44194.21..44195.38 rows=10 width=12) (actual time=66.081..69.481 rows=10 loops=1)
+  Buffers: shared hit=19696
+  ->  Gather Merge  (cost=44194.21..76395.30 rows=275990 width=12) (actual time=66.079..69.477 rows=10 loops=1)
+        Workers Planned: 2
+        Workers Launched: 2
+        Buffers: shared hit=19696
+        ->  Sort  (cost=43194.19..43539.18 rows=137995 width=12) (actual time=54.141..54.143 rows=9 loops=3)
+              Sort Key: (st_area(geom)) DESC
+              Sort Method: top-N heapsort  Memory: 25kB
+              Buffers: shared hit=19696
+              Worker 0:  Sort Method: top-N heapsort  Memory: 25kB
+              Worker 1:  Sort Method: top-N heapsort  Memory: 25kB
+              ->  Parallel Index Scan using areas_kind_btree on areas  (cost=0.42..40212.17 rows=137995 width=12) (actual time=0.063..37.110 rows=110581 loops=3)
+                    Index Cond: (kind = 'building'::text)
+                    Buffers: shared hit=19680
+Planning:
+  Buffers: shared hit=5
+Planning Time: 0.091 ms
+Execution Time: 69.503 ms

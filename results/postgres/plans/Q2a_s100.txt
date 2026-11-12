@@ -1,0 +1,7 @@
+Index Scan using roads_geom_gist on roads  (cost=0.28..818.43 rows=60 width=12) (actual time=0.151..0.372 rows=18 loops=1)
+  Index Cond: (geom && '010200002084080000020000005C8FC2757B91234152B81E85BE131E41000000002B942341D7A3703D120E1E41'::geometry)
+  Filter: st_intersects(geom, '010200002084080000020000005C8FC2757B91234152B81E85BE131E41000000002B942341D7A3703D120E1E41'::geometry)
+  Rows Removed by Filter: 42
+  Buffers: shared hit=58
+Planning Time: 0.127 ms
+Execution Time: 0.387 ms

@@ -1,0 +1,4 @@
+-> Aggregate: sum(st_area(areas.geom)), count(0)  (cost=4193 rows=1) (actual time=124..124 rows=1 loops=1)
+    -> Filter: ((areas.kind = 'building') and st_within(areas.geom,<cache>(st_geomfromtext((@wkt_rect_big),2180))))  (cost=3779 rows=4137) (actual time=0.132..98 rows=8068 loops=1)
+        -> Index range scan on areas using areas_geom over (geom unprintable_geometry_value)  (cost=3779 rows=8274) (actual time=0.0976..52.3 rows=16342 loops=1)
+

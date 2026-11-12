@@ -1,0 +1,10 @@
+Limit  (cost=0.28..135.99 rows=10 width=37) (actual time=0.068..0.109 rows=10 loops=1)
+  Buffers: shared hit=17
+  ->  Index Scan using pois_cat_geom_gist on pois  (cost=0.28..27738.76 rows=2044 width=37) (actual time=0.068..0.108 rows=10 loops=1)
+        Index Cond: (category = 'restaurant'::text)
+        Order By: (geom <-> '0101000020840800005C8FC2757B91234152B81E85BE131E41'::geometry)
+        Buffers: shared hit=17
+Planning:
+  Buffers: shared hit=6
+Planning Time: 0.073 ms
+Execution Time: 0.116 ms

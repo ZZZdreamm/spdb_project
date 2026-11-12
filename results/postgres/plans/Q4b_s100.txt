@@ -1,0 +1,16 @@
+Bitmap Heap Scan on pois  (cost=20.47..47.69 rows=1 width=21) (actual time=0.130..0.140 rows=5 loops=1)
+  Recheck Cond: (category = 'restaurant'::text)
+  Filter: st_dwithin(geom, '0101000020840800005C8FC2757B91234152B81E85BE131E41'::geometry, '500'::double precision)
+  Rows Removed by Filter: 2
+  Heap Blocks: exact=7
+  Buffers: shared hit=16
+  ->  BitmapAnd  (cost=20.47..20.47 rows=2 width=0) (actual time=0.120..0.121 rows=0 loops=1)
+        Buffers: shared hit=9
+        ->  Bitmap Index Scan on pois_geom_gist  (cost=0.00..2.12 rows=82 width=0) (actual time=0.036..0.036 rows=71 loops=1)
+              Index Cond: (geom && st_expand('0101000020840800005C8FC2757B91234152B81E85BE131E41'::geometry, '500'::double precision))
+              Buffers: shared hit=5
+        ->  Bitmap Index Scan on pois_category_btree  (cost=0.00..18.10 rows=2081 width=0) (actual time=0.082..0.082 rows=2043 loops=1)
+              Index Cond: (category = 'restaurant'::text)
+              Buffers: shared hit=4
+Planning Time: 0.112 ms
+Execution Time: 0.155 ms

@@ -1,0 +1,9 @@
+Index Scan using areas_geom_gist on areas  (cost=0.29..15.00 rows=1 width=20) (actual time=0.140..0.168 rows=1 loops=1)
+  Index Cond: (geom ~ '0101000020840800005C8FC2757B91234152B81E85BE131E41'::geometry)
+  Filter: st_contains(geom, '0101000020840800005C8FC2757B91234152B81E85BE131E41'::geometry)
+  Rows Removed by Filter: 3
+  Buffers: shared hit=32
+Planning:
+  Buffers: shared hit=124
+Planning Time: 0.784 ms
+Execution Time: 0.224 ms

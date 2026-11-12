@@ -1,0 +1,11 @@
+-> Index lookup on x using <auto_key0> (rn=1)  (cost=0.35..3.5 rows=10) (actual time=1104..1104 rows=44 loops=1)
+    -> Materialize  (cost=0..0 rows=0) (actual time=1104..1104 rows=61689 loops=1)
+        -> Window aggregate: row_number() OVER (PARTITION BY p.id ORDER BY dist )   (actual time=1048..1061 rows=61689 loops=1)
+            -> Sort: p.id, dist  (actual time=1048..1051 rows=61689 loops=1)
+                -> Stream results  (cost=1.36e+6 rows=13.6e+6) (actual time=0.327..1011 rows=61689 loops=1)
+                    -> Nested loop inner join  (cost=1.36e+6 rows=13.6e+6) (actual time=0.317..781 rows=61689 loops=1)
+                        -> Filter: st_within(p.geom,<cache>(st_geomfromtext((@wkt_rect_big),2180)))  (cost=174 rows=37) (actual time=0.133..4.98 rows=44 loops=1)
+                            -> Index lookup on p using pois_category (category='pharmacy')  (cost=174 rows=681) (actual time=0.0276..1.93 rows=681 loops=1)
+                        -> Filter: mbrintersects(r.geom,st_buffer(p.geom,500,<cache>(st_buffer_strategy('point_square'))))  (cost=1018 rows=368187) (actual time=0.166..17.5 rows=1402 loops=44)
+                            -> Index range scan on r (re-planned for each iteration)  (cost=1018 rows=368187) (actual time=0.153..5.18 rows=1402 loops=44)
+

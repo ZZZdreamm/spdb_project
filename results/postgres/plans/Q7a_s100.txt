@@ -1,0 +1,32 @@
+Bitmap Heap Scan on pois s  (cost=66.80..1433.45 rows=29 width=12) (actual time=0.363..1.848 rows=30 loops=1)
+  Recheck Cond: (category = 'school'::text)
+  Filter: st_within(geom, '010300002084080000010000000500000014AE4761536623415C8FC2F5FD521D4114AE4761938523415C8FC2F5FD521D4114AE4761938523415C8FC2F57D911D4114AE4761536623415C8FC2F57D911D4114AE4761536623415C8FC2F5FD521D41'::geometry)
+  Heap Blocks: exact=10
+  Buffers: shared hit=438
+  ->  BitmapAnd  (cost=66.80..66.80 rows=29 width=0) (actual time=0.260..0.261 rows=0 loops=1)
+        Buffers: shared hit=39
+        ->  Bitmap Index Scan on pois_category_btree  (cost=0.00..4.52 rows=417 width=0) (actual time=0.017..0.017 rows=393 loops=1)
+              Index Cond: (category = 'school'::text)
+              Buffers: shared hit=2
+        ->  Bitmap Index Scan on pois_geom_gist  (cost=0.00..62.01 rows=4711 width=0) (actual time=0.239..0.239 rows=4655 loops=1)
+              Index Cond: (geom @ '010300002084080000010000000500000014AE4761536623415C8FC2F5FD521D4114AE4761938523415C8FC2F5FD521D4114AE4761938523415C8FC2F57D911D4114AE4761536623415C8FC2F57D911D4114AE4761536623415C8FC2F5FD521D41'::geometry)
+              Buffers: shared hit=37
+  SubPlan 1
+    ->  Aggregate  (cost=33.52..33.53 rows=1 width=8) (actual time=0.052..0.052 rows=1 loops=30)
+          Buffers: shared hit=389
+          ->  Bitmap Heap Scan on pois r  (cost=19.91..33.52 rows=1 width=0) (actual time=0.050..0.051 rows=2 loops=30)
+                Recheck Cond: (category = 'restaurant'::text)
+                Filter: st_dwithin(geom, s.geom, '300'::double precision)
+                Rows Removed by Filter: 1
+                Heap Blocks: exact=76
+                Buffers: shared hit=389
+                ->  BitmapAnd  (cost=19.91..19.91 rows=1 width=0) (actual time=0.049..0.049 rows=0 loops=30)
+                      Buffers: shared hit=313
+                      ->  Bitmap Index Scan on pois_geom_gist  (cost=0.00..1.56 rows=7 width=0) (actual time=0.021..0.021 rows=110 loops=30)
+                            Index Cond: (geom && st_expand(s.geom, '300'::double precision))
+                            Buffers: shared hit=193
+                      ->  Bitmap Index Scan on pois_category_btree  (cost=0.00..18.10 rows=2081 width=0) (actual time=0.026..0.026 rows=2043 loops=30)
+                            Index Cond: (category = 'restaurant'::text)
+                            Buffers: shared hit=120
+Planning Time: 0.161 ms
+Execution Time: 1.870 ms
